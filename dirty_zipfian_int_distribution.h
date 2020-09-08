@@ -166,7 +166,7 @@ public:
     {
       double ans = 0.0;
       for(unsigned long i=1; i<=__n; ++i)
-        ans += fast_pow(1.0/i, __theta);
+        ans += fast_precise_pow(1.0/i, __theta);
       return ans;
     }
   };
@@ -231,15 +231,15 @@ public:
   result_type operator()(_UniformRandomNumberGenerator& __urng, const param_type& __p)
   {
     double alpha = 1 / (1 - __p.theta());
-    double eta = (1 - fast_pow(2.0 / (__p.b() - __p.a() + 1), 1 - __p.theta())) / (1 - __p.zeta2theta() / __p.zeta());
+    double eta = (1 - fast_precise_pow(2.0 / (__p.b() - __p.a() + 1), 1 - __p.theta())) / (1 - __p.zeta2theta() / __p.zeta());
       
     double u = std::generate_canonical<double, std::numeric_limits<double>::digits, _UniformRandomNumberGenerator>(__urng);
       
     double uz = u * __p.zeta();
     if(uz < 1.0) return __p.a();
-    if(uz < 1.0 + fast_pow(0.5, __p.theta())) return __p.a() + 1;
+    if(uz < 1.0 + fast_precise_pow(0.5, __p.theta())) return __p.a() + 1;
 
-    return __p.a() + ((__p.b() - __p.a() + 1) * fast_pow(eta*u-eta+1, alpha));
+    return __p.a() + ((__p.b() - __p.a() + 1) * fast_precise_pow(eta*u-eta+1, alpha));
   }
 
   /**
