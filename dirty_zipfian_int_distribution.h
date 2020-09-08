@@ -1,5 +1,3 @@
-#pragma once
-
 /*
  * MIT License
  *
@@ -62,6 +60,8 @@
  * }
  */
 
+#pragma once
+
 #include <cmath>
 #include <limits>
 #include <random>
@@ -69,7 +69,7 @@
 
 namespace dirtyzipf {
 
-double fast_pow(double a, double b) {
+inline double fast_pow(double a, double b) {
     union {
         double d;
         int x[2];
@@ -79,7 +79,7 @@ double fast_pow(double a, double b) {
     return u.d;
 }
 
-double fast_precise_pow(double a, double b) {
+inline double fast_precise_pow(double a, double b) {
     // calculate approximation with fraction of the exponent
     int e = (int) b;
     union {
