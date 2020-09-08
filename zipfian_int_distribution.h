@@ -66,7 +66,7 @@
 #include <cassert>
 
 template<typename _IntType = int>
-class zipfian_int_distribution
+class dirty_zipfian_int_distribution
 {
   static_assert(std::is_integral<_IntType>::value, "Template argument not an integral type.");
 

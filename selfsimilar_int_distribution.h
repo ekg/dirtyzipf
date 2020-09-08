@@ -52,7 +52,7 @@
 #include <cassert>
 
 template<typename _IntType = int>
-class selfsimilar_int_distribution
+class dirty_selfsimilar_int_distribution
 {
   static_assert(std::is_integral<_IntType>::value, "Template argument not an integral type.");
 
