@@ -123,7 +123,7 @@ public:
     
     explicit param_type(_IntType __a, _IntType __b, double __theta, double __zeta)
     : _M_a(__a), _M_b(__b), _M_theta(__theta), _M_zeta(__zeta),
- n   _M_zeta2theta(zeta(2, __theta))
+    _M_zeta2theta(zeta(2, __theta))
     {
       __glibcxx_assert(_M_a <= _M_b && _M_theta > 0.0 && _M_theta < 1.0);
     }
