@@ -1,6 +1,8 @@
-# C++ Random Distributions
+# zipf and selfsimilar C++ Random Distributions using a fast approximate pow function
 
 This repository provides header-only classes with additional statistical distributions to be used by C++11 random generators.
+
+They have been modified from the source repo to use a [fast approximate pow implementation](https://martin.ankerl.com/2012/01/25/optimized-approximative-pow-in-c-and-cpp/).
 
 Example:
 ```c++
