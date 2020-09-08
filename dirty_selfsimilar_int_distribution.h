@@ -189,7 +189,7 @@ public:
     double u = std::generate_canonical<double, std::numeric_limits<double>::digits, _UniformRandomNumberGenerator>(__urng);
     unsigned long N = __p.b() - __p.a() + 1;
     return __p.a() + (N *
-                fast_precise_pow(u, std::log(__p.skew()) / std::log(1.0-__p.skew())));
+                fast_pow(u, std::log(__p.skew()) / std::log(1.0-__p.skew())));
   }
 
   /**
