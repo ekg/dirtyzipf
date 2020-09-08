@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * MIT License
  *
@@ -45,8 +47,6 @@
  *   int i = distribution(generator);
  * }
  */
-
-#pragma once
 
 #include <cmath>
 #include <limits>
