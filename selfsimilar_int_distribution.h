@@ -76,6 +76,50 @@ public:
 
     double skew() const { return _M_skew; }
 
+          double fast_pow(double a, double b) {
+        union {
+            double d;
+            int x[2];
+        } u = { a };
+        u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+        u.x[0] = 0;
+        return u.d;
+    }
+
+    double fast_pow(double a, double b) {
+        union {
+            double d;
+            int x[2];
+        } u = { a };
+        u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+        u.x[0] = 0;
+        return u.d;
+    }
+
+    double fast_precise_pow(double a, double b) {
+        // calculate approximation with fraction of the exponent
+        int e = (int) b;
+        union {
+            double d;
+            int x[2];
+        } u = { a };
+        u.x[1] = (int)((b - e) * (u.x[1] - 1072632447) + 1072632447);
+        u.x[0] = 0;
+
+        // exponentiation by squaring with the exponent's integer part
+        // double r = u.d makes everything much slower, not sure why
+        double r = 1.0;
+        while (e) {
+            if (e & 1) {
+                r *= a;
+            }
+            a *= a;
+            e >>= 1;
+        }
+
+        return r * u.d;
+    }
+
     friend bool	operator==(const param_type& __p1, const param_type& __p2)
     {
       return __p1._M_a == __p2._M_a
@@ -151,7 +195,7 @@ public:
     double u = std::generate_canonical<double, std::numeric_limits<double>::digits, _UniformRandomNumberGenerator>(__urng);
     unsigned long N = __p.b() - __p.a() + 1;
     return __p.a() + (N *
-                std::pow(u, std::log(__p.skew()) / std::log(1.0-__p.skew())));
+                fast_precise_pow(u, std::log(__p.skew()) / std::log(1.0-__p.skew())));
   }
 
   /**
