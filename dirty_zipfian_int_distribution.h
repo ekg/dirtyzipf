@@ -65,6 +65,42 @@
 #include <random>
 #include <cassert>
 
+namespace dirtyzipf {
+
+double fast_pow(double a, double b) {
+    union {
+        double d;
+        int x[2];
+    } u = { a };
+    u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+    u.x[0] = 0;
+    return u.d;
+}
+
+double fast_precise_pow(double a, double b) {
+    // calculate approximation with fraction of the exponent
+    int e = (int) b;
+    union {
+        double d;
+        int x[2];
+    } u = { a };
+    u.x[1] = (int)((b - e) * (u.x[1] - 1072632447) + 1072632447);
+    u.x[0] = 0;
+
+    // exponentiation by squaring with the exponent's integer part
+    // double r = u.d makes everything much slower, not sure why
+    double r = 1.0;
+    while (e) {
+        if (e & 1) {
+            r *= a;
+        }
+        a *= a;
+        e >>= 1;
+    }
+
+    return r * u.d;
+}
+
 template<typename _IntType = int>
 class dirty_zipfian_int_distribution
 {
@@ -87,7 +123,7 @@ public:
     
     explicit param_type(_IntType __a, _IntType __b, double __theta, double __zeta)
     : _M_a(__a), _M_b(__b), _M_theta(__theta), _M_zeta(__zeta),
-    _M_zeta2theta(zeta(2, __theta))
+ n   _M_zeta2theta(zeta(2, __theta))
     {
       __glibcxx_assert(_M_a <= _M_b && _M_theta > 0.0 && _M_theta < 1.0);
     }
@@ -109,40 +145,6 @@ public:
           && __p1._M_theta == __p2._M_theta
           && __p1._M_zeta == __p2._M_zeta
           && __p1._M_zeta2theta == __p2._M_zeta2theta;
-    }
-
-    double fast_pow(double a, double b) {
-        union {
-            double d;
-            int x[2];
-        } u = { a };
-        u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
-        u.x[0] = 0;
-        return u.d;
-    }
-
-    double fast_precise_pow(double a, double b) {
-        // calculate approximation with fraction of the exponent
-        int e = (int) b;
-        union {
-            double d;
-            int x[2];
-        } u = { a };
-        u.x[1] = (int)((b - e) * (u.x[1] - 1072632447) + 1072632447);
-        u.x[0] = 0;
-
-        // exponentiation by squaring with the exponent's integer part
-        // double r = u.d makes everything much slower, not sure why
-        double r = 1.0;
-        while (e) {
-            if (e & 1) {
-                r *= a;
-            }
-            a *= a;
-            e >>= 1;
-        }
-
-        return r * u.d;
     }
 
   private:
@@ -248,3 +250,5 @@ public:
   private:
   param_type _M_param;
 };
+
+}
