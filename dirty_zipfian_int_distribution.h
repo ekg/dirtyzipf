@@ -28,16 +28,16 @@
  */
 
 /*
- * The zipfian_int_distribution class is intended to be compatible with other
+ * The dirty_zipfian_int_distribution class is intended to be compatible with other
  * distributions introduced in #include <random> by the C++11 standard.
  * 
  * Usage example:
  * #include <random>
- * #include "zipfian_int_distribution.h"
+ * #include "dirty_zipfian_int_distribution.h"
  * int main()
  * {
  *   std::default_random_engine generator;
- *   zipfian_int_distribution<int> distribution(1, 10, 0.99);
+ *   dirty_zipfian_int_distribution<int> distribution(1, 10, 0.99);
  *   int i = distribution(generator);
  * }
  */
@@ -50,12 +50,12 @@
  * 
  * Usage example:
  * #include <random>
- * #include "zipfian_int_distribution.h"
+ * #include "dirty_zipfian_int_distribution.h"
  * int main()
  * {
  *   std::default_random_engine generator;
- *   zipfian_int_distribution<int>::param_type p(1, 1e6, 0.99, 27.000);
- *   zipfian_int_distribution<int> distribution(p);
+ *   dirty_zipfian_int_distribution<int>::param_type p(1, 1e6, 0.99, 27.000);
+ *   dirty_zipfian_int_distribution<int> distribution(p);
  *   int i = distribution(generator);
  * }
  */
@@ -76,7 +76,7 @@ public:
   /** Parameter type. */
   struct param_type
   {
-    typedef zipfian_int_distribution<_IntType> distribution_type;
+    typedef dirty_zipfian_int_distribution<_IntType> distribution_type;
 
     explicit param_type(_IntType __a = 0, _IntType __b = std::numeric_limits<_IntType>::max(), double __theta = 0.99)
     : _M_a(__a), _M_b(__b), _M_theta(__theta),
@@ -169,17 +169,17 @@ public:
 
 public:
   /**
-   * @brief Constructs a zipfian_int_distribution object.
+   * @brief Constructs a dirty_zipfian_int_distribution object.
    *
    * @param __a [IN]  The lower bound of the distribution.
    * @param __b [IN]  The upper bound of the distribution.
    * @param __theta [IN]  The skew factor of the distribution.
    */
-  explicit zipfian_int_distribution(_IntType __a = _IntType(0), _IntType __b = _IntType(1), double __theta = 0.99)
+  explicit dirty_zipfian_int_distribution(_IntType __a = _IntType(0), _IntType __b = _IntType(1), double __theta = 0.99)
   : _M_param(__a, __b, __theta)
   { }
 
-  explicit zipfian_int_distribution(const param_type& __p) : _M_param(__p)
+  explicit dirty_zipfian_int_distribution(const param_type& __p) : _M_param(__p)
   { }
 
   /**
@@ -242,7 +242,7 @@ public:
    * @brief Return true if two zipfian int distributions have
    *        the same parameters.
    */
-  friend bool operator==(const zipfian_int_distribution& __d1, const zipfian_int_distribution& __d2)
+  friend bool operator==(const dirty_zipfian_int_distribution& __d1, const dirty_zipfian_int_distribution& __d2)
   { return __d1._M_param == __d2._M_param; }
 
   private:
