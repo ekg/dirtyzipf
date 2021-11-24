@@ -127,7 +127,7 @@ public:
     : _M_a(__a), _M_b(__b), _M_theta(__theta), _M_zeta(__zeta),
     _M_zeta2theta(zeta(2, __theta))
     {
-      __glibcxx_assert(_M_a <= _M_b && _M_theta > 0.0 && _M_theta < 1.0);
+      assert(_M_a <= _M_b && _M_theta > 0.0 && _M_theta < 1.0);
     }
 
     result_type	a() const { return _M_a; }
